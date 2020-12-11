@@ -1,2 +1,2 @@
 [flake8]
-exclude = .git,__pycache,migrations,tests
+exclude = .git,__pycache,migrations,tests,api_yamdb/settings.py

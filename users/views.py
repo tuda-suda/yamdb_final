@@ -1,26 +1,24 @@
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, mixins, status, viewsets, filters
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import AccessToken
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.pagination import PageNumberPagination
 
 from api_yamdb.settings import YAMDB_NOREPLY_EMAIL
 
 from .models import User
-from .permissions import IsAdmin, IsModerator, IsOwner, ReadOnly
+from .permissions import IsAdmin
 from .serializers import (CodeConfirmationSerializer, EmailSignUpSerializer,
-                          UserSerializer, YamdbTokenObtainPairSerializer)
+                          UserSerializer)
 
 
 class EmailSignUpView(APIView):
     permission_classes = (AllowAny,)
-    
+
     def post(self, request):
         serializer = EmailSignUpSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -28,7 +26,7 @@ class EmailSignUpView(APIView):
         new_user = None
         if not User.objects.filter(email=email).exists():
             new_user = User.objects.create_user(email=email, is_active=False)
-        
+
         user = new_user or get_object_or_404(User, email=email)
         confirmation_code = default_token_generator.make_token(user)
         send_mail(
@@ -66,21 +64,21 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdmin,)
 
     @action(
-        methods=['get', 'patch'], 
-        detail=False, 
+        methods=['get', 'patch'],
+        detail=False,
         permission_classes=[IsAuthenticated]
     )
     def me(self, request):
         user = request.user
         if request.method == 'PATCH':
             serializer = self.get_serializer(
-                user, 
-                data=request.data, 
+                user,
+                data=request.data,
                 partial=True
             )
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
             return Response(serializer.data)
-          
+
         serializer = self.get_serializer(user)
         return Response(serializer.data)
