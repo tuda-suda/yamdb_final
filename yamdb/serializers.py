@@ -33,12 +33,12 @@ class GenreField(serializers.SlugRelatedField):
 
 class TitleSerializer(serializers.ModelSerializer):
     category = CategoryField(
-        slug_field='slug', 
+        slug_field='slug',
         queryset=Category.objects.all()
     )
     genre = GenreField(
-        slug_field='slug', 
-        queryset=Genre.objects.all(), 
+        slug_field='slug',
+        queryset=Genre.objects.all(),
         many=True
     )
     rating = serializers.IntegerField(
@@ -52,7 +52,7 @@ class TitleSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        read_only=True, 
+        read_only=True,
         slug_field='username'
     )
 
@@ -63,7 +63,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        read_only=True, 
+        read_only=True,
         slug_field='username'
     )
     text = serializers.CharField(required=True)

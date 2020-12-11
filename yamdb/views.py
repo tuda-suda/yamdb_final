@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Avg
-from rest_framework import filters, generics, mixins, permissions, viewsets
+from rest_framework import filters, mixins, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -9,8 +9,8 @@ from users.permissions import IsAdmin, ReadOnly, IsOwner, IsModerator
 
 from .filters import TitleFilter
 from .models import Category, Genre, Title, Review
-from .serializers import (CategorySerializer, GenreSerializer, TitleSerializer, 
-    ReviewSerializer, CommentSerializer)
+from .serializers import (CategorySerializer, GenreSerializer, TitleSerializer,
+                          ReviewSerializer, CommentSerializer)
 
 User = get_user_model()
 
@@ -68,9 +68,9 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         title = get_object_or_404(Title, pk=self.kwargs.get('title_id'))
         reviews = Review.objects.filter(title__id=title.pk,
-                                       author=self.request.user)
+                                        author=self.request.user)
         if reviews:
-            raise ValidationError(f'You have already reviewed this title.')
+            raise ValidationError('You have already reviewed this title.')
         serializer.save(author=self.request.user, title=title)
 
 
