@@ -1,5 +1,7 @@
 # YaMDb
 
+![Workflow status](https://github.com/tuda-suda/yamdb_final/workflows/yamdb%20workflow/badge.svg)
+
 ## About
 
 API backend for online database of information and reviews about movies, music, books, etc.
