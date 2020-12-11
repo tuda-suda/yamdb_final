@@ -28,7 +28,7 @@ services:
     image: nginx:latest
     restart: always
     volumes:
-      - static:/static
+      - static_volume:/static
       - ./config/nginx/:/etc/nginx/conf.d
     ports:
       - "80:80"
