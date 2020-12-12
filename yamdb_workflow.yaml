@@ -55,9 +55,9 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          sudo docker pull mugtaram/flask-actions
-          sudo docker stop $(sudo docker ps -a -q)
-          sudo docker run --rm -d -p 5000:5000 mugtaram/yamdb
+          sudo docker rmi mugtaram/flask-actions -f
+          sudo docker pull mugtaram/flask-actions:latest
+          sudo docker-compose up --force-recreate -d web
           
   send_message:
     runs-on: ubuntu-latest
