@@ -28,8 +28,8 @@ services:
     image: nginx:1.19.5
     restart: always
     volumes:
-      - static_volume:/static
-      - media_volume:/media
+      - static_volume:/code/static
+      - media_volume:/code/media
       - ./config/nginx/:/etc/nginx/conf.d
     ports:
       - "80:80"

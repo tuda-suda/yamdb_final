@@ -48,6 +48,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+    - name: Copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          source: "./.env, ./config/nginx/default.conf, ./docker-compose.yaml"
+          target: "/home/marat/code"
+
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
@@ -55,6 +65,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+          cd ~/code
           sudo docker rmi mugtaram/yamdb -f
           sudo docker pull mugtaram/yamdb:latest
           sudo docker-compose up --force-recreate -d web
