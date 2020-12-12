@@ -55,8 +55,8 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          sudo docker rmi mugtaram/flask-actions -f
-          sudo docker pull mugtaram/flask-actions:latest
+          sudo docker rmi mugtaram/yamdb -f
+          sudo docker pull mugtaram/yamdb:latest
           sudo docker-compose up --force-recreate -d web
           
   send_message:
