@@ -55,6 +55,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+          ls -al
           sudo docker rmi mugtaram/yamdb -f
           sudo docker pull mugtaram/yamdb:latest
           sudo docker-compose up --force-recreate -d web
