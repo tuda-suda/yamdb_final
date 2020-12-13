@@ -49,6 +49,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+    - name: Prepare tar for Copy
+      run: |
+        mkdir ../temp
+        cp docker-compose.yaml config/nginx/default.conf ../temp
+        tar -cvf deploy.tar ../temp/
+
     - name: Copy file via ssh password
       uses: appleboy/scp-action@master
       with:
@@ -56,7 +62,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         port: 22
-        source: 'docker-compose.yaml,config/nginx/default.conf'
+        source: 'deploy.tar'
         target: '/home/marat/code'
 
     - name: Execute remote ssh commands to deploy
