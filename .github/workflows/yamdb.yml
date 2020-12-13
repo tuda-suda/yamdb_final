@@ -49,9 +49,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+    - name: Check out the repo
+      uses: actions/checkout@v2
     - name: Prepare tar for Copy
       run: |
-        ls -al
+        ls -a
         mkdir ../temp
         cp docker-compose.yaml config/nginx/default.conf ../temp
         tar -cvf deploy.tar ../temp/
