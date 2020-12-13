@@ -49,6 +49,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+    - name: Check out the repo
+      uses: actions/checkout@v2
     - name: Copy file via ssh password
       uses: appleboy/scp-action@master
       with:
@@ -56,8 +58,8 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         port: 22
-        source: "config/nginx/default.conf, docker-compose.yaml"
-        target: "/home/marat/code"
+        source: 'deploy.tar'
+        target: '/home/marat/code'
 
     - name: Execute remote ssh commands to deploy
       uses: appleboy/ssh-action@master
@@ -66,10 +68,11 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          sudo cd ~/code
+          sudo cd code
           sudo docker rmi mugtaram/yamdb -f
           sudo docker pull mugtaram/yamdb:latest
-          sudo docker-compose up --force-recreate -d web
+          sudo docker-compose up --force-recreate --no-deps -d web
+          sudo docker image prune -f
           
   send_message:
     name: Send workflow status message

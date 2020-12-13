@@ -51,13 +51,6 @@ jobs:
     steps:
     - name: Check out the repo
       uses: actions/checkout@v2
-    - name: Prepare tar for Copy
-      run: |
-        ls -a
-        mkdir ../temp
-        cp docker-compose.yaml config/nginx/default.conf ../temp
-        tar -cvf deploy.tar ../temp/
-
     - name: Copy file via ssh password
       uses: appleboy/scp-action@master
       with:
@@ -79,6 +72,7 @@ jobs:
           sudo docker rmi mugtaram/yamdb -f
           sudo docker pull mugtaram/yamdb:latest
           sudo docker-compose up --force-recreate --no-deps -d web
+          sudo docker image prune -f
           
   send_message:
     name: Send workflow status message
