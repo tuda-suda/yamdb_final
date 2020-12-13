@@ -42,3 +42,5 @@ For installation guide, refer to [official documentation](https://docs.docker.co
 You can also load test data:
 
 `docker-compose run web python manage.py loaddata fixtures.json`
+
+The app is accessible via http://localhost/api/v1
