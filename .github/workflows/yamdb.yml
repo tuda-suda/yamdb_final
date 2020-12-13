@@ -51,6 +51,7 @@ jobs:
     steps:
     - name: Prepare tar for Copy
       run: |
+        ls -al
         mkdir ../temp
         cp docker-compose.yaml config/nginx/default.conf ../temp
         tar -cvf deploy.tar ../temp/
