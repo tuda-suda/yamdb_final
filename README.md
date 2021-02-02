@@ -47,7 +47,7 @@ You can also load test data:
 The app is accessible via http://localhost/api/v1
 
 ## Contributors:
-Auth, user management: github.com/tuda-suda
+Auth, user management: https://github.com/tuda-suda
 
 Categories, Genres: https://github.com/bzhekshiev
 
