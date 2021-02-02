@@ -5,6 +5,7 @@
 ## About
 
 API backend for online database of information and reviews about movies, music, books, etc.
+This repo only sets up CI/CD infrastructure, for the main repo [click here](https://github.com/tuda-suda/api_yamdb).
 
 ### Tech stack
 
@@ -44,3 +45,8 @@ You can also load test data:
 `docker-compose run web python manage.py loaddata fixtures.json`
 
 The app is accessible via http://localhost/api/v1
+
+## Contributors:
+Auth, user management: github.com/tuda-suda
+Categories, Genres: https://github.com/bzhekshiev
+Titles, Reviews, Comments: https://github.com/timurhamzin
